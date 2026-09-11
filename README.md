@@ -1,0 +1,131 @@
+# Agentic AI Projects
+
+A collection of projects and experiments I built while learning
+**Agentic AI, Large Language Models (LLMs), and related concepts.**
+
+## Projects
+
+### 1. GPT-4o Tokenizer
+
+A simple Python program using `tiktoken` to encode text into GPT-4o
+token IDs and decode the tokens back into text.
+
+**Technologies:** Python, tiktoken
+
+---
+
+### 2. LLM API Integration
+
+Python programs that interact with Large Language Models through APIs
+and generate responses based on user input.
+
+**APIs:** OpenAI API, Google Gemini API  
+**Technologies:** Python, OpenAI SDK, Google GenAI SDK
+
+---
+
+### 3. Prompt Engineering
+
+A collection of Python programs exploring different prompt engineering
+techniques for controlling and improving LLM responses.
+
+**Techniques explored:**
+- System prompting
+- One-shot prompting
+- Few-shot prompting
+- Chain-of-Thought (CoT) prompting
+- Persona-based prompting
+
+**Technologies:** Python, LLM APIs
+
+---
+
+### 4. Running an LLM Locally
+
+Experimented with running **SmolLM 135M** locally using **Ollama** and
+**Open WebUI**, allowing interaction with the model without relying
+on a cloud-hosted LLM API.
+
+**Technologies:** Ollama, Open WebUI, SmolLM 135M
+
+![SmolLM running locally](./04_local_LLM/localLLM.png)
+
+---
+
+### 5. FastAPI + Ollama
+
+Built a **FastAPI application** that interacts with a locally running
+LLM through **Ollama** and tested the API endpoints using **Swagger UI**.
+
+**Technologies:** Python, FastAPI, Ollama
+
+---
+
+### 6. Multimodal LLM with Hugging Face
+
+Used the **Hugging Face Transformers** library to run an open-source
+multimodal model and generate a response from an image and text prompt.
+
+The program uses an image-text input to identify the object in an image.
+
+**Technologies:** Python, Hugging Face Transformers, Gemma
+
+---
+
+### 7. AI Agents
+
+Built AI agents that can reason through tasks and interact with external
+tools based on the user's request.
+
+**Agents:**
+
+- **Weather Agent** – Uses a weather API/tool to retrieve current weather
+information for a requested city.
+- **CLI Coding Agent** – Can execute system commands through a CLI tool to
+assist with coding-related tasks.
+
+The agent follows a structured workflow:
+
+`START → PLAN → TOOL → OBSERVE → PLAN → OUTPUT`
+
+The implementation uses structured JSON responses validated with Pydantic
+to determine the next action and tool to execute.
+
+**Technologies:** Python, Gemini API, OpenAI SDK, Pydantic, Requests,
+Tool Calling
+
+---
+
+### 8. RAG PDF Chatbot
+
+Built a Retrieval-Augmented Generation (RAG) chatbot that allows users
+to ask questions about the contents of a PDF.
+
+The application uses `PyPDFLoader` to load the document and
+`RecursiveCharacterTextSplitter` to divide it into overlapping chunks.
+The chunks are converted into vector embeddings using Gemini Embeddings
+and stored in a local Qdrant vector database.
+
+When a user submits a query, the application performs similarity search
+to retrieve relevant document chunks and provides them as context to
+the Gemini LLM. The response also includes the relevant PDF page number
+to help the user locate the source information.
+
+**Technologies:** Python, LangChain, Qdrant, Gemini Embeddings, Gemini API
+
+#### Architecture
+
+```mermaid
+flowchart TD
+A[PDF] --> B[PyPDFLoader]
+B --> C[Text Chunking]
+C --> D[Gemini Embeddings]
+D --> E[Qdrant Vector Database]
+
+F[User Query] --> G[Similarity Search]
+E --> G
+G --> H[Relevant Chunks]
+H --> I[Gemini LLM]
+F --> I
+I --> J[Answer + Page Reference]
+```
