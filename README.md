@@ -1,7 +1,6 @@
 # Agentic AI Projects
 
-A collection of projects and experiments I built while learning
-**Agentic AI, Large Language Models (LLMs), and related concepts.**
+A collection of projects and experiments I built while learning Generative AI, Agentic AI, Large Language Models (LLMs), RAG, and related concepts.
 
 ## Projects
 
@@ -129,3 +128,25 @@ H --> I[Gemini LLM]
 F --> I
 I --> J[Answer + Page Reference]
 ```
+
+---
+
+### 9. Asynchronous RAG API with FastAPI & RQ
+
+Extended the RAG PDF chatbot into an asynchronous API using FastAPI
+and a background job queue.
+
+User queries are submitted through a FastAPI endpoint and added to an
+RQ job queue. A worker processes the query in the background, performs
+similarity search against the Qdrant vector database, and uses the
+Gemini API to generate the final response.
+
+The API provides endpoints to submit queries and retrieve the result
+using the job ID.
+
+**Architecture:**
+
+`FastAPI → RQ Queue → Valkey → Worker → Qdrant → Gemini API`
+
+**Technologies:** Python, FastAPI, Redis/RQ, Valkey, Qdrant,
+LangChain, Gemini API
