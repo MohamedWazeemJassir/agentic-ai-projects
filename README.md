@@ -150,3 +150,16 @@ using the job ID.
 
 **Technologies:** Python, FastAPI, Redis/RQ, Valkey, Qdrant,
 LangChain, Gemini API
+
+---
+
+### 10. Multimodal AI Agent
+
+Built a multimodal AI application using the Gemini API that accepts
+both text and image inputs.
+
+The application uploads an image and provides it to the model along
+with a text instruction, allowing the model to analyze and describe
+the image.
+
+**Technologies:** Python, Gemini API, Google GenAI SDK, Multimodal LLMs
