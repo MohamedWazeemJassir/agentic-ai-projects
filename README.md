@@ -163,3 +163,23 @@ with a text instruction, allowing the model to analyze and describe
 the image.
 
 **Technologies:** Python, Gemini API, Google GenAI SDK, Multimodal LLMs
+
+---
+
+### 11. LangGraph Workflows & Memory
+
+Built and experimented with LLM workflows using **LangGraph**, exploring
+state management, graph-based execution, conditional routing, and
+persistent conversation state.
+
+**Experiments include:**
+
+- Building a basic chatbot workflow using LangGraph nodes and edges.
+- Managing conversation state using `TypedDict` and message reducers.
+- Creating multi-node workflows with sequential execution.
+- Implementing conditional routing based on LLM output evaluation.
+- Adding persistent state using **MongoDB checkpointing** with
+  `MongoDBSaver`.
+- Using thread IDs to maintain state across graph executions.
+
+**Technologies:** Python, LangGraph, LangChain, Gemini, MongoDB
