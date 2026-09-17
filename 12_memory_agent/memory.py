@@ -3,7 +3,9 @@ from mem0 import Memory
 from openai import OpenAI
 import os, json
 from neo4j import GraphDatabase
- 
+
+load_dotenv()
+
 driver = GraphDatabase.driver(
     os.getenv("NEO_CONNECT_URI"),
     auth=(os.getenv("NEO_USERNAME"), os.getenv("NEO_PASSWORD"))
