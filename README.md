@@ -183,3 +183,25 @@ persistent conversation state.
 - Using thread IDs to maintain state across graph executions.
 
 **Technologies:** Python, LangGraph, LangChain, Gemini, MongoDB
+
+---
+
+### 12. AI Memory with Mem0, Qdrant & Neo4j
+
+Built an LLM application that experiments with persistent user memory
+using **Mem0**, **Qdrant**, and **Neo4j**.
+
+The application retrieves relevant memories based on the user's query
+and provides them as context to the LLM when generating a response.
+New user and assistant interactions are then stored for future
+retrieval.
+
+The project also stores user-message relationships in a Neo4j graph,
+allowing user interactions to be represented as graph relationships.
+
+**Memory Architecture:**
+
+`User Query → Memory Retrieval → LLM + Memory Context → Response → Memory Storage`
+
+**Technologies:** Python, Mem0, Qdrant, Neo4j, Gemini API,
+Vector Embeddings
