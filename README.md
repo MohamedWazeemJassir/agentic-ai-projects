@@ -205,3 +205,18 @@ allowing user interactions to be represented as graph relationships.
 
 **Technologies:** Python, Mem0, Qdrant, Neo4j, Gemini API,
 Vector Embeddings
+
+---
+
+### 13. Voice AI Agent
+
+Built a voice-based AI application that accepts spoken user input,
+converts speech to text, processes the transcript using a Gemini LLM,
+and converts the generated response back into speech.
+
+The application follows a speech-to-speech pipeline:
+
+`Speech Input → Speech-to-Text → Gemini LLM → Text-to-Speech → Audio Output`
+
+**Technologies:** Python, Gemini API, SpeechRecognition,
+ElevenLabs, OpenAI SDK
