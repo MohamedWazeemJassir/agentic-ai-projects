@@ -3,12 +3,20 @@ from openai import OpenAI
 import json, requests, os
 from pydantic import BaseModel, Field
 from typing import Optional
+import asyncio
+import speech_recognition as sr
+from elevenlabs.client import ElevenLabs
+from elevenlabs.play import play
 
 load_dotenv()
 
 client = OpenAI(
     api_key=os.getenv("GEMINI_API_KEY"),
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+elevenlabs = ElevenLabs(
+  api_key=os.getenv("ELEVENLABS_API_KEY"),
 )
 
 def run_command(cmd: str):
@@ -85,43 +93,61 @@ class MyOutputFormat(BaseModel):
 message_history = [
     { "role": "system", "content": SYSTEM_PROMPT }
 ]
-while True:
-    user_query = input("> ")
+
+r = sr.Recognizer()
+
+with sr.Microphone() as source:
+    r.adjust_for_ambient_noise(source)
+    r.pause_threshold = 2
+
     while True:
-        message_history.append({ "role": "user", "content": user_query })
-        response = client.chat.completions.parse(
-            model="gemini-3.5-flash",
-            response_format= MyOutputFormat,
-            messages=message_history
-        )
+        print("Speak Something...")
+        audio = r.listen(source)
 
-        raw_result = (response.choices[0].message.content)
-        message_history.append({"role": "assistant", "content": raw_result})
+        print("Processing Audio... (STT)")
+        user_query = r.recognize_google(audio)
 
-        parsed_result = response.choices[0].message.parsed
+        while True:
+            message_history.append({ "role": "user", "content": user_query })
+            response = client.chat.completions.parse(
+                model="gemini-3.5-flash",
+                response_format= MyOutputFormat,
+                messages=message_history
+            )
 
-        if parsed_result.step == "START":
-            print("🔥", parsed_result.content)
-            continue
+            raw_result = (response.choices[0].message.content)
+            message_history.append({"role": "assistant", "content": raw_result})
 
-        if parsed_result.step == "TOOL":
-            tool_to_call = parsed_result.tool
-            tool_input = parsed_result.input
-            print(f"⚒️: {tool_to_call} ({tool_input})")
+            parsed_result = response.choices[0].message.parsed
 
-            tool_response = available_tools[tool_to_call](tool_input)
-            print(f"⚒️: {tool_to_call} ({tool_input}) = {tool_response}")
-            message_history.append({"role": "user", "content": json.dumps(
-                {"step":"OBSERVE", "tool": tool_to_call, "input": tool_input, "output": tool_response}
-            )})
-            continue
+            if parsed_result.step == "START":
+                print("🔥", parsed_result.content)
+                continue
 
-        if parsed_result.step == "PLAN":
-            print("🧠", parsed_result.content)
-            continue
+            if parsed_result.step == "TOOL":
+                tool_to_call = parsed_result.tool
+                tool_input = parsed_result.input
+                print(f"⚒️: {tool_to_call} ({tool_input})")
 
-        if parsed_result.step == "OUTPUT":
-            print("🤖", parsed_result.content)
-            break
+                tool_response = available_tools[tool_to_call](tool_input)
+                print(f"⚒️: {tool_to_call} ({tool_input}) = {tool_response}")
+                message_history.append({"role": "user", "content": json.dumps(
+                    {"step":"OBSERVE", "tool": tool_to_call, "input": tool_input, "output": tool_response}
+                )})
+                continue
 
-    print("\n")
+            if parsed_result.step == "PLAN":
+                print("🧠", parsed_result.content)
+                continue
+
+            if parsed_result.step == "OUTPUT":
+                print("🤖", parsed_result.content)
+                audio = elevenlabs.text_to_speech.convert(
+                                text=parsed_result.content,
+                                voice_id="JBFqnCBsd6RMkjVDRZzb",
+                                model_id="eleven_v3",
+                                output_format="mp3_44100_128",
+                            )
+                break
+
+        print("\n")

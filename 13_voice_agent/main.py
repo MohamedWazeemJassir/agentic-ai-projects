@@ -24,35 +24,38 @@ def main():
         r.adjust_for_ambient_noise(source)
         r.pause_threshold = 2
 
-        print("Speak Something...")
-        audio = r.listen(source)
-
-        print("Processing Audio... (STT)")
-        stt = r.recognize_google(audio)
-
-        print("You Said:", stt)
-
         SYSTEM_PROMPT = f"""
-            You're an expert voice agent. You are given the transcript of what user has said using voice.
-            You need to output as if you are an voice agent and whatever you speak will be converted back
-            to audio using AI anad played back to user.
-        """
+                            You're an expert voice agent. You are given the transcript of what user has said using voice.
+                            You need to output as if you are an voice agent and whatever you speak will be converted back
+                            to audio using AI anad played back to user.
+                        """
 
-        response = client.chat.completions.create(
-            model="gemini-3.5-flash",
-            messages=[
-                { "role": "system", "content": SYSTEM_PROMPT },
-                { "role": "user", "content": stt }
-            ]
-        )
+        messages = [{ "role": "system", "content": SYSTEM_PROMPT },]
 
-        print("AI Response:", response.choices[0].message.content)
-        audio = elevenlabs.text_to_speech.convert(
-            text=response.choices[0].message.content,
-            voice_id="JBFqnCBsd6RMkjVDRZzb",
-            model_id="eleven_v3",
-            output_format="mp3_44100_128",
-        )
+        while True:
 
-        play(audio)
+            print("Speak Something...")
+            audio = r.listen(source)
+
+            print("Processing Audio... (STT)")
+            stt = r.recognize_google(audio)
+
+            print("You Said:", stt)
+
+            messages.append({ "role": "user", "content": stt })
+
+            response = client.chat.completions.create(
+                model="gemini-3.5-flash",
+                messages=messages
+            )
+
+            print("AI Response:", response.choices[0].message.content)
+            audio = elevenlabs.text_to_speech.convert(
+                text=response.choices[0].message.content,
+                voice_id="JBFqnCBsd6RMkjVDRZzb",
+                model_id="eleven_v3",
+                output_format="mp3_44100_128",
+            )
+
+            play(audio)
 main()
