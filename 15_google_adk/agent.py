@@ -1,6 +1,6 @@
 from google.adk.agents.llm_agent import Agent
 
-def get_current_time(greeting: str) -> dict:
+def greet(greeting: str) -> dict:
     return {"status": "success", "greeting": greeting}
 
 root_agent = Agent(
