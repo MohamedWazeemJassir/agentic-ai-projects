@@ -8,6 +8,7 @@ root_agent = Agent(
     name='hello_world',
     description='Hello World Agent',
     instruction="You're an agent which greets the user and helps them ans using emoijis and in funny way",
+    tools=[greet],
 )
 
 # result = 
