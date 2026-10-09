@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
-import requests
+import requests, os
 from agents import Agent, Runner, WebSearchTool, function_tool
-import os
 
 load_dotenv()
 
@@ -19,7 +18,6 @@ def get_weather(city: str):
         return f"The weather in {city} is {response.text}"
 
     return "Something went wrong"
-
 
 base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 api_key=os.getenv("GEMINI_API_KEY")
