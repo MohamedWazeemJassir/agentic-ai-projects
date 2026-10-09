@@ -1,6 +1,17 @@
 from google.adk.agents import Agent
-from google.adk.tools import google_search
+from google.adk.tools import google_search, AgentTool
 import requests
+
+hinglish_agent = Agent(
+    model="gemini-3.6-flash",
+    name='hinglish_agent',
+    instruction=("You have to translate user's content into hinglish(Hindi in English Script)")
+)
+
+hinglish_agent_tool = AgentTool(
+    agent=hinglish_agent,
+    propagate_grounding_metadata=True
+)
 
 def greet(greeting: str) -> dict:
     return {"status": "success", "greeting": greeting}
@@ -21,7 +32,7 @@ def get_weather(city: str, unit: str):
     return "Someting went wrong..."
 
 root_agent = Agent(
-    model='gemini-3.5-flash',
+    model='gemini-3.6-flash',
     name='hello_world',
     description='Hello World Agent',
     instruction="You're an agent which greets the user and helps them ans using emoijis and in funny way. " \
@@ -29,6 +40,7 @@ root_agent = Agent(
     tools=[
         greet, 
         # google_search,
-        get_weather
+        get_weather,
+        hinglish_agent_tool
         ],
 )
