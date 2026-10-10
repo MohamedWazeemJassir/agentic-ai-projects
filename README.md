@@ -235,3 +235,17 @@ Built AI agent experiments using the **OpenAI Agents SDK**, exploring tool integ
 The experiments demonstrate how agents can use external tools and delegate tasks to specialized agents.
 
 **Technologies:** Python, OpenAI Agents SDK, Gemini API, Web Search, Function Tools, Multi-Agent Orchestration
+
+---
+
+### 15. AI Agents with Google ADK
+
+Built an AI agent using the **Google Agent Development Kit (ADK)**, exploring custom tools, weather retrieval, and delegation to a specialized translation agent.
+
+**Features and experiments:**
+
+- **Custom Function Tools** – Implemented greeting and weather tools that the agent can invoke based on user requests.
+- **Specialized Translation Agent** – Created a Hinglish translation agent and exposed it to the main agent using `AgentTool`.
+- **Tool-Based Responses** – Configured the main agent to respond conversationally and mention the tools used to complete a task.
+
+**Technologies:** Python, Google ADK, Gemini, AgentTool, Function Tools, Requests
