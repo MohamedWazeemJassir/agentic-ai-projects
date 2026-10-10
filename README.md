@@ -220,3 +220,18 @@ The application follows a speech-to-speech pipeline:
 
 **Technologies:** Python, Gemini API, SpeechRecognition,
 ElevenLabs, OpenAI SDK
+
+---
+
+### 14. AI Agents with OpenAI Agents SDK
+
+Built AI agent experiments using the **OpenAI Agents SDK**, exploring tool integration, web search, and multi-agent orchestration.
+
+**Experiments include:**
+
+- **Tool-Enabled Agent** – Created an assistant with web search and a custom weather tool to retrieve weather information for a specified city.
+- **Multi-Agent Translation** – Built an orchestrator agent that delegates translation requests to specialized Spanish and French agents using agent-as-tool functionality.
+
+The experiments demonstrate how agents can use external tools and delegate tasks to specialized agents.
+
+**Technologies:** Python, OpenAI Agents SDK, Gemini API, Web Search, Function Tools, Multi-Agent Orchestration
